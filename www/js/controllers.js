@@ -1,6 +1,12 @@
 angular.module('starter.controllers', [])
-.controller('LoginCtrl', function($scope, auth, $state, store) {
+.controller('LoginCtrl', function($scope, auth, $state, store, $rootScope, $firebaseObject) {
+  var firebaseUrl = "https://taskmasterr.firebaseio.com/";
+  var ref = new Firebase("https://taskmasterr.firebaseio.com/");
+  // var fbauth = $firebaseAuth(ref);
+
   function doAuth() {
+    // var userRef = new Firebase(FIREBASE_URL + 'users/' + authUser.uid);
+
     auth.signin({
       closable: false,
       // This asks for the refresh token
@@ -12,10 +18,21 @@ angular.module('starter.controllers', [])
       store.set('profile', profile);
       store.set('token', idToken);
       store.set('refreshToken', refreshToken);
-      $state.go('tab.dash');
+      $state.go('tab.account');
     }, function(error) {
       console.log("There was an error logging in", error);
     });
+
+    var userRef = new Firebase(firebaseUrl + 'users/')
+    .child(auth.profile.identities[0].user_id).set({
+      date: Firebase.ServerValue.TIMESTAMP,
+      email:  auth.profile.email,
+      nickname: auth.profile.nickname
+    }); //user info
+
+    $rootScope.currentUser = auth;
+
+
   }
 
   $scope.$on('$ionic.reconnectScope', function() {
@@ -48,34 +65,38 @@ angular.module('starter.controllers', [])
   }
   
   $scope.auth = auth;  
+
+  $scope.getAuth = function() {
+     // console.log("auth", auth.profile.identities[0].user_id);
+     console.log(auth);
+  }
   
 })
 
-.controller('DashCtrl', function($scope, $http) {
-  $scope.callApi = function() {
-    // Just call the API as you'd do using $http
-    $http({
-      url: 'http://auth0-nodejsapi-sample.herokuapp.com/secured/ping',
-      method: 'GET'
-    }).then(function() {
-      alert("We got the secured data successfully");
-    }, function() {
-      alert("Please download the API seed so that you can call it.");
-    });
-  };
+
+
+.controller('BuildCtrl', function($scope, $http) {
+  // $scope.callApi = function() {
+  //   // Just call the API as you'd do using $http
+  //   $http({
+  //     url: 'http://auth0-nodejsapi-sample.herokuapp.com/secured/ping',
+  //     method: 'GET'
+  //   }).then(function() {
+  //     alert("We got the secured data successfully");
+  //   }, function() {
+  //     alert("Please download the API seed so that you can call it.");
+  //   });
+  // };
 
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
-})
+// .controller('GoCtrl', function($scope, Chats) {
+//   // $scope.chats = Chats.all();
+//   // $scope.remove = function(chat) {
+//   //   Chats.remove(chat);
+//   // }
+// })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
 
 .controller('AccountCtrl', function($scope, auth, store, $state) {
   $scope.logout = function() {

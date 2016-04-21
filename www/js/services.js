@@ -1,50 +1,89 @@
 angular.module('starter.services', [])
+.service('sharedTasks', ['firebaseUrl', '$rootScope', '$firebaseAuth', function($rootScope, $firebaseAuth) {
+  var taskList = [];
+  var firebaseUrl = "https://taskmasterr.firebaseio.com/";
+  var ref = new Firebase(firebaseUrl);
+  var auth = $firebaseAuth(ref);
+  var taskListRef, userRef;
+  var nickname;
+  // var showLoginContent = true;
+  var exTime=0;
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
-  }, {
-    id: 2,
-    name: 'Andrew Jostlin',
-    lastText: 'Did you get the ice cream?',
-    face: 'https://pbs.twimg.com/profile_images/491274378181488640/Tti0fFVJ.jpeg'
-  }, {
-    id: 3,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
-  }, {
-    id: 4,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
+  auth.$onAuth(function(authUser) {
+      if (authUser) {
+        taskListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id + '/tasks');
+        if (taskListRef) {
+          taskListRef.once("value", function(snapshot) {
+              if (snapshot.exists()) {
+                  taskList = snapshot.val()["taskList"];
+                  // showLoginContent = false;
+              }
+          }, function(errorObject) {
+              console.log("The read failed: ", errorObject.code);
+          });
+        }
+        userRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
+        if (userRef) {
+          userRef.once("value", function(snapshot) {
+              if (snapshot.exists()) {
+                  // taskList = snapshot.val()["taskList"];
+                  nickname = snapshot.val()["nickname"];
+                  // lastname = snapshot.val()["lastname"];
+                  // console.log("taskList:", $scope.taskList);
+              }
+          }, function(errorObject) {
+              console.log("The read failed: ", errorObject.code);
+          });
         }
       }
-      return null;
+  })
+
+  return {
+    getTaskList: function() {
+      
+      return taskList;
+    },
+
+    getNickname: function() {
+      return nickname;
+    },
+
+    // getLastname: function() {
+    //   return lastname;
+    // },
+
+    getShowLoginContent: function() {
+      return showLoginContent;
+    },
+
+    setTaskList: function(newList) {
+      taskList = newList;
+      taskListRef.update({"taskList": newList});
+    },
+
+    // updateAccountFirstname: function(newFirstname) {
+    //   userRef.update({"firstname": newFirstname});
+    // },
+
+    // updateAccountLastname: function(newLastname) {
+    //   userRef.update({"lastname": newLastname});
+    // },
+
+    // updateAccountEmail: function(newEmail) {
+    //   userRef.update({"email": newEmail});
+    // },
+
+    getExTime: function() {
+      return exTime;
+    },
+
+    setExTime: function(newExtime) {
+      exTime = newExtime;
+    },
+
+    setRootId: function(newId) {
+      $rootScope.currentUser.$id = newId;
     }
-  };
-});
+
+  }
+}])
