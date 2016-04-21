@@ -33,7 +33,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
   		// 	tasksList: $scope.tasksList
   		// })
   		console.log("sharedtasks tasks", sharedTasks.getTasksList());
-  		// console.log("test function working: ", sharedTasks.testFunction());
+  		console.log("test function working: ", sharedTasks.testFunction());
   	}
 
 

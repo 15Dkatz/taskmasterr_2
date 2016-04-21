@@ -46,8 +46,8 @@ myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope
           tasksListRef.once("value", function(snapshot) {
               if (snapshot.exists()) {
                   tasksList = snapshot.val()["tasksList"];
-                  console.log("tasksList", tasksList);
-                  console.log("tasksListRef", tasksListRef);
+                  // console.log("tasksList", tasksList);
+                  // console.log("tasksListRef", tasksListRef);
               }
           }, function(errorObject) {
               console.log("The read failed: ", errorObject.code);

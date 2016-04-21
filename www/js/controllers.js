@@ -17,37 +17,37 @@ angular.module('starter.controllers', [])
       store.set('token', idToken);
       store.set('refreshToken', refreshToken);
       $state.go('tab.account');
-    }, function(error) {
-      console.log("There was an error logging in", error);
-    });
 
-    // set an empty tasksList if first time registering, else
-    // not registering...
-    var userRef = new Firebase(firebaseUrl + 'users/').child(auth.profile.identities[0].user_id)
-    if (!userRef) {
-      userRef.set({
+      var userRef = new Firebase(firebaseUrl + 'users/');
+
+      // check if Firebase has this registered user. If not, then create the dataset.
+      var hasUser;
+
+      userRef.once("value", function(snapshot) {
+        hasUser = snapshot.hasChild(auth.profile.identities[0].user_id);
+        console.log("hasUser", hasUser);
+        if (hasUser===false) {
+        userRef.child(auth.profile.identities[0].user_id).set({
           date: Firebase.ServerValue.TIMESTAMP,
           email:  auth.profile.email,
           nickname: auth.profile.nickname,
           tasksList: {
-          name: "your first task"
-        }
-      });
-    }
+            name: "your first task"
+          } 
+        });
+      }
 
-    // var userRef = new Firebase(firebaseUrl + 'users/')
-    // .child(auth.profile.identities[0].user_id).set({
-    //   date: Firebase.ServerValue.TIMESTAMP,
-    //   email:  auth.profile.email,
-    //   nickname: auth.profile.nickname,
-    //   tasksList: {
-    //     name: "first task"
-    //   }
-    // }); //user info
+    })
+
+    // console.log(userRef)
+
+    }, function(error) {
+      console.log("There was an error logging in", error);
+    });
 
     $rootScope.currentUser = auth;
 
-
+    
   }
 
   $scope.$on('$ionic.reconnectScope', function() {
@@ -71,6 +71,10 @@ angular.module('starter.controllers', [])
     }, function() {
       // Error callback
     });
+
+
+
+
   }
 
   $scope.logout = function() {
@@ -104,13 +108,6 @@ angular.module('starter.controllers', [])
   // };
 
 })
-
-// .controller('GoCtrl', function($scope, Chats) {
-//   // $scope.chats = Chats.all();
-//   // $scope.remove = function(chat) {
-//   //   Chats.remove(chat);
-//   // }
-// })
 
 
 .controller('AccountCtrl', function($scope, auth, store, $state) {
