@@ -1,21 +1,21 @@
 angular.module('starter.services', [])
-.service('sharedTasks', ['firebaseUrl', '$rootScope', '$firebaseAuth', function($rootScope, $firebaseAuth) {
-  var taskList = [];
+myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope, $firebaseAuth) {
+  var tasksList = [];
   var firebaseUrl = "https://taskmasterr.firebaseio.com/";
   var ref = new Firebase(firebaseUrl);
   var auth = $firebaseAuth(ref);
-  var taskListRef, userRef;
+  var tasksListRef, userRef;
   var nickname;
   // var showLoginContent = true;
   var exTime=0;
 
   auth.$onAuth(function(authUser) {
       if (authUser) {
-        taskListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id + '/tasks');
-        if (taskListRef) {
-          taskListRef.once("value", function(snapshot) {
+        tasksListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id + '/tasks');
+        if (tasksListRef) {
+          tasksListRef.once("value", function(snapshot) {
               if (snapshot.exists()) {
-                  taskList = snapshot.val()["taskList"];
+                  tasksList = snapshot.val()["tasksList"];
                   // showLoginContent = false;
               }
           }, function(errorObject) {
@@ -26,10 +26,10 @@ angular.module('starter.services', [])
         if (userRef) {
           userRef.once("value", function(snapshot) {
               if (snapshot.exists()) {
-                  // taskList = snapshot.val()["taskList"];
+                  // tasksList = snapshot.val()["tasksList"];
                   nickname = snapshot.val()["nickname"];
                   // lastname = snapshot.val()["lastname"];
-                  // console.log("taskList:", $scope.taskList);
+                  // console.log("tasksList:", $scope.tasksList);
               }
           }, function(errorObject) {
               console.log("The read failed: ", errorObject.code);
@@ -39,13 +39,28 @@ angular.module('starter.services', [])
   })
 
   return {
-    getTaskList: function() {
-      
-      return taskList;
+    getTasksList: function() {
+      tasksListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
+      var tasksList;
+      if (tasksListRef) {
+          tasksListRef.once("value", function(snapshot) {
+              if (snapshot.exists()) {
+                  nickname = snapshot.val()["tasksList"];
+              }
+          }, function(errorObject) {
+              console.log("The read failed: ", errorObject.code);
+          });
+        }
+
+      return tasksListRef;
     },
 
     getNickname: function() {
       return nickname;
+    },
+
+    testFunction: function() {
+      return "sharedTasks works";
     },
 
     // getLastname: function() {
@@ -56,9 +71,9 @@ angular.module('starter.services', [])
       return showLoginContent;
     },
 
-    setTaskList: function(newList) {
-      taskList = newList;
-      taskListRef.update({"taskList": newList});
+    setTasksList: function(newList) {
+      tasksList = newList;
+      tasksListRef.update({"tasksList": newList});
     },
 
     // updateAccountFirstname: function(newFirstname) {

@@ -69,6 +69,9 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.
           controller: 'GoCtrl'
         }
       }
+      // data: {
+      //   requiresLogin: true
+      // }
     })
     // .state('tab.chat-detail', {
     //   url: '/chats/:chatId',
@@ -156,3 +159,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.
 // use these logins to access a unique array 
 
   // first create the unique array service
+
+
+// !!!! TO DO NEXT!!! 
+  // add the to the service in order to set and get tasksList based on the rootScope user

@@ -27,7 +27,8 @@ angular.module('starter.controllers', [])
     .child(auth.profile.identities[0].user_id).set({
       date: Firebase.ServerValue.TIMESTAMP,
       email:  auth.profile.email,
-      nickname: auth.profile.nickname
+      nickname: auth.profile.nickname,
+      tasksList: ""
     }); //user info
 
     $rootScope.currentUser = auth;

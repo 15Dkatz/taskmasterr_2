@@ -1,4 +1,5 @@
-myApp.controller('GoCtrl', function($scope, $rootScope, $firebaseObject, $firebaseAuth, sharedTasks) {
+myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebaseAuth', 'sharedTasks',
+	function($scope, $rootScope, $firebaseObject, $firebaseAuth, sharedTasks) {
 	// $scope.chats = Chats.all();
 	// $scope.remove = function(chat) {
 	//   Chats.remove(chat);
@@ -13,11 +14,13 @@ myApp.controller('GoCtrl', function($scope, $rootScope, $firebaseObject, $fireba
 
 	// auth.profile.identities[0].user_id
 
-  	var tasksRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
+  	// var tasksRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
 
   	auth.$onAuth(function(authUser) {
         if (authUser) {
-            $scope.tasksList = sharedExercises.getTasksList();
+            $scope.tasksList = sharedTasks.getTasksList();
+
+            console.log("sharedTasks", sharedTasks.getTasksList());
         }
     })
 
@@ -30,9 +33,10 @@ myApp.controller('GoCtrl', function($scope, $rootScope, $firebaseObject, $fireba
   		// 	tasksList: $scope.tasksList
   		// })
   		console.log("sharedtasks tasks", sharedTasks.getTasksList());
+  		// console.log("test function working: ", sharedTasks.testFunction());
   	}
 
 
-})
+}])
 
 
