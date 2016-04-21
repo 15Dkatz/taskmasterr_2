@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope, $firebaseAuth) {
-  var tasksList = [];
+  // var tasksList = [];
   var firebaseUrl = "https://taskmasterr.firebaseio.com/";
   var ref = new Firebase(firebaseUrl);
   var auth = $firebaseAuth(ref);
@@ -45,14 +45,16 @@ myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope
       if (tasksListRef) {
           tasksListRef.once("value", function(snapshot) {
               if (snapshot.exists()) {
-                  nickname = snapshot.val()["tasksList"];
+                  tasksList = snapshot.val()["tasksList"];
+                  console.log("tasksList", tasksList);
+                  console.log("tasksListRef", tasksListRef);
               }
           }, function(errorObject) {
               console.log("The read failed: ", errorObject.code);
           });
         }
 
-      return tasksListRef;
+      return tasksList;
     },
 
     getNickname: function() {

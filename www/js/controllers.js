@@ -1,12 +1,10 @@
 angular.module('starter.controllers', [])
 .controller('LoginCtrl', function($scope, auth, $state, store, $rootScope, $firebaseObject) {
   var firebaseUrl = "https://taskmasterr.firebaseio.com/";
-  var ref = new Firebase("https://taskmasterr.firebaseio.com/");
+  // var ref = new Firebase("https://taskmasterr.firebaseio.com/");
   // var fbauth = $firebaseAuth(ref);
 
   function doAuth() {
-    // var userRef = new Firebase(FIREBASE_URL + 'users/' + authUser.uid);
-
     auth.signin({
       closable: false,
       // This asks for the refresh token
@@ -23,13 +21,29 @@ angular.module('starter.controllers', [])
       console.log("There was an error logging in", error);
     });
 
-    var userRef = new Firebase(firebaseUrl + 'users/')
-    .child(auth.profile.identities[0].user_id).set({
-      date: Firebase.ServerValue.TIMESTAMP,
-      email:  auth.profile.email,
-      nickname: auth.profile.nickname,
-      tasksList: ""
-    }); //user info
+    // set an empty tasksList if first time registering, else
+    // not registering...
+    var userRef = new Firebase(firebaseUrl + 'users/').child(auth.profile.identities[0].user_id)
+    if (!userRef) {
+      userRef.set({
+          date: Firebase.ServerValue.TIMESTAMP,
+          email:  auth.profile.email,
+          nickname: auth.profile.nickname,
+          tasksList: {
+          name: "your first task"
+        }
+      });
+    }
+
+    // var userRef = new Firebase(firebaseUrl + 'users/')
+    // .child(auth.profile.identities[0].user_id).set({
+    //   date: Firebase.ServerValue.TIMESTAMP,
+    //   email:  auth.profile.email,
+    //   nickname: auth.profile.nickname,
+    //   tasksList: {
+    //     name: "first task"
+    //   }
+    // }); //user info
 
     $rootScope.currentUser = auth;
 
