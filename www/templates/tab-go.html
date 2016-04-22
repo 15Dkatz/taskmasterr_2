@@ -27,7 +27,7 @@
     <div class="row topButtons">
       <div class="col col-50">
         <button class="button button-block icon-right ion-play topButtons" ng-click="startTask()" ng-if="showStartButton">Start</button>
-        <button class="button button-block icon-right topButtons {{pauseBtn.ionname}}" ng-click="startTask()" ng-if="!showStartButton">{{pauseBtn.name}}</button>
+        <button class="button button-block icon-right topButtons {{pauseBtn.ionname}}" ng-click="pauseTask()" ng-if="!showStartButton">{{pauseBtn.name}}</button>
       </div>
       <div class="col col-50">
         <button class="button button-block icon-right ion-ios-skipforward topButtons" ng-click="skiptask()">Skip</button>
