@@ -31,10 +31,12 @@ angular.module('starter.controllers', [])
           date: Firebase.ServerValue.TIMESTAMP,
           email:  auth.profile.email,
           nickname: auth.profile.nickname,
-          tasksList: {
-            name: "your first task",
-            time: 5
-          } 
+          tasksList: [
+              {
+                name: "your first task",
+                time: 5
+              }
+            ]
         });
       }
 
@@ -43,11 +45,14 @@ angular.module('starter.controllers', [])
       if (tasksListRef) {
       tasksListRef.once("value", function(snapshot) {
            if (snapshot.exists()) {
-               tasksList = snapshot.val()["tasksList"];
-               console.log("tasksList", tasksList);
-               console.log("tasksListRef", tasksListRef);
+                tasksList = snapshot.val()["tasksList"];
+                console.log("tasksList", tasksList);
+                console.log("tasksListRef", tasksListRef);
                 $rootScope.tasksList = tasksList;
-               // return tasksList;
+                // return tasksList;
+                $rootScope.$broadcast('tasksListSet');
+
+
            }
        }, function(errorObject) {
            console.log("The read failed: ", errorObject.code);

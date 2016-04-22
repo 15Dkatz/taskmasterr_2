@@ -46,7 +46,7 @@
       <br>
       <!-- <br> -->
       <!-- <span ng-init="initExList()">{{initExList()}}</span> -->
-      <ion-item ng-repeat="task in tasksList track by $index" class="item icon-left">
+      <ion-item ng-repeat="task in updateTasksList() track by $index" class="item icon-left">
        {{task.name}}
        
         <span class="item-note">{{task.time}} seconds</span>

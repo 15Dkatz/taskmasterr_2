@@ -4,11 +4,42 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
 	// var firebaseUrl = "https://taskmasterr.firebaseio.com/";
 	// var ref = new Firebase("https://taskmasterr.firebaseio.com/");
 
-	$scope.taskslist = {};
+	$scope.tasksList = {};
 
-  	$scope.addTask = function(taskName) {
-  		sharedTasks.addTask($scope.tasksList, taskName);
-  	}
+	$rootScope.$on('tasksListSet', function() {
+		$scope.tasksList = $rootScope.tasksList;
+	})
+
+	var tasksList;
+    var taskTimeLimit;
+    
+    $scope.currentTask;
+
+	$scope.updateTasksList = function() {
+        // exerciseList = sharedExercises.getExerciseList();
+        // if (exerciseList) {
+        //     if (exerciseList.length>0) {
+        //         $scope.currentExercise = exerciseList[0];
+        //         exerciseTimeLimit = $scope.currentExercise["time"];
+        //     }
+        // }
+        // $scope.exerciseList = exerciseList;
+        var tasksList = $rootScope.tasksList;
+
+        if (tasksList) {
+        	if (tasksList.length>0) {
+        		$scope.currentTask = tasksList[0];
+        		taskTimeLimit = $scope.currentTask.time;
+        	}
+        }
+        $scope.tasksList = tasksList;
+        return tasksList;
+    }
+
+  	// $scope.addTask = function(taskName) {
+  	// 	// sharedTasks.addTask($scope.tasksList, taskName);
+  	// 	console.log($scope.tasksList, "$scope.tasksList");
+  	// }
 
 	$scope.showStartButton = true;
 
@@ -28,10 +59,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
 
     // ********
 
-    var tasksList;
-    var taskTimeLimit;
     
-    $scope.currentTask;
     var timer;
     var exTime = 0;
 
@@ -76,22 +104,22 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         // $scope.updatetasksList();
         // $scope.tasksList = $scope.updatetasksList();
         timer = false;
-        // updatetaskVariables();
+        $scope.updatetaskVariables();
         // exTime = $scope.currentTask["time"];
     }
 
     $scope.skipTask = function() {
         exTime=0;
-        sharedTasks.setExTime(exTime);
+        // sharedTasks.setExTime(exTime);
         removeCurrentTask();
     }
 
 
     var removeCurrentTask = function() {
         $scope.tasksList.shift();
-        console.log($scope.tasksList);
+        console.log($scope.tasksList, "with the first task removed");
         sharedTasks.setTasksList($scope.tasksList);
-        updatetaskVariables(); 
+        $scope.updateTasksList();
     }
 
 
@@ -100,7 +128,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
     $scope.startTask = function() {
         // taskTimeLimit = $scope.currentTask["time"];
         $scope.showStartButton = false;
-        $scope.currentTask = $scope.tasksList[0];
+        // $scope.currentTask = $scope.tasksList[0];
         if (!timer) {
             timer = setInterval(addTime, 1000);
         }
@@ -130,7 +158,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         // popup template for new Task
         $scope.newTask = {};
         var myPopup = $ionicPopup.show({
-        template: "<input class='inputIndent' placeholder='Name' type='text' ng-model='newTask.task'><br><input type='number' class='inputIndent' placeholder='Time in seconds' ng-model='newTask.time'>",
+        template: "<input class='inputIndent' placeholder='Name' type='text' ng-model='newTask.name'><br><input type='number' class='inputIndent' placeholder='Time in seconds' ng-model='newTask.time'>",
         title: 'New Task',
         scope: $scope,
         buttons: [
@@ -145,7 +173,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
                 // $scope.tasksList.push($scope.newTask);
                 // sharedTasks.setTaskList($scope.tasksList);
                 console.log($scope.tasksList.length, "ts Length");
-                sharedTasks.addTask($scope.taskslist, $scope.newTask);
+                sharedTasks.addTask($scope.tasksList, $scope.newTask);
                 // updateTaskVariables();
               }
             }
@@ -160,6 +188,9 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         $timeout(function() {
            myPopup.close(); 
         }, 20000);
+
+        // console.log($rootScope.tasksList, "$rootScope.tasksList");
+        // console.log($scope.tasksList, "$rootScope.tasksList");
 
     }
 
