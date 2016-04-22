@@ -10,30 +10,60 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
 
 	var auth = $firebaseAuth(ref);
 
-	$scope.tasksList = "a";
+	
+	var tasksListRef;
+
+
+	// var getTasksList = function() {
+	// 	// if ($rootScope.currentUser.profile.identities[0]) {
+
+	// 	// }
+	// 	// tasksListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
+	// 	var tasksList;
+	// 	if (tasksListRef) {
+	// 	tasksListRef.once("value", function(snapshot) {
+	// 	    if (snapshot.exists()) {
+	// 	        tasksList = snapshot.val()["tasksList"];
+	// 	        console.log("tasksList", tasksList);
+	// 	        console.log("tasksListRef", tasksListRef);
+
+	// 	        return tasksList;
+	// 	    }
+	// 	}, function(errorObject) {
+	// 	    console.log("The read failed: ", errorObject.code);
+	// 	});
+	// 	}
+	// 	// console.log("tasksList outside of snapshot", tasksList);
+	// 	return tasksList;
+	// }
+
+
+	// $rootScope.$on('auth', function() {
+	// 	tasksListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
+	// 	console.log("test successful");
+
+	// 	$scope.tasksList = getTasksList();
+	// })
+	
+
 
 	// auth.profile.identities[0].user_id
 
   	// var tasksRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
 
-  	auth.$onAuth(function(authUser) {
-        if (authUser) {
-            $scope.tasksList = sharedTasks.getTasksList();
+  	// auth.$onAuth(function(authUser) {
+   //      if (authUser) {
+   //          $scope.tasksList = sharedTasks.getTasksList();
 
-            console.log("sharedTasks", sharedTasks.getTasksList());
-        }
-    })
+   //          console.log("sharedTasks", sharedTasks.getTasksList());
+   //      }
+   //  })
 
   	// $scope.tasksList = tasksRef.snapshot.val()["tasksList"];
 
 
   	$scope.addTask = function(taskName) {
-  		// $scope.tasksList.push(taskName);
-  		// tasksRefset.set({
-  		// 	tasksList: $scope.tasksList
-  		// })
-  		console.log("sharedtasks tasks", sharedTasks.getTasksList());
-  		console.log("test function working: ", sharedTasks.testFunction());
+  		sharedTasks.addTask($scope.tasksList, taskName);
   	}
 
 

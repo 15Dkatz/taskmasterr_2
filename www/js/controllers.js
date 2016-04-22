@@ -37,6 +37,23 @@ angular.module('starter.controllers', [])
         });
       }
 
+      tasksListRef = new Firebase(firebaseUrl + 'users/' + auth.profile.identities[0].user_id);
+      var tasksList;
+      if (tasksListRef) {
+      tasksListRef.once("value", function(snapshot) {
+           if (snapshot.exists()) {
+               tasksList = snapshot.val()["tasksList"];
+               console.log("tasksList", tasksList);
+               console.log("tasksListRef", tasksListRef);
+                $rootScope.tasksList = tasksList;
+               // return tasksList;
+           }
+       }, function(errorObject) {
+           console.log("The read failed: ", errorObject.code);
+       });
+       }
+
+
     })
 
     // console.log(userRef)
@@ -45,7 +62,10 @@ angular.module('starter.controllers', [])
       console.log("There was an error logging in", error);
     });
 
+
+
     $rootScope.currentUser = auth;
+
 
     
   }
@@ -71,10 +91,6 @@ angular.module('starter.controllers', [])
     }, function() {
       // Error callback
     });
-
-
-
-
   }
 
   $scope.logout = function() {
