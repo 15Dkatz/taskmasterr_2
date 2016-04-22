@@ -31,12 +31,16 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         //     }
         // }
         // $scope.exerciseList = exerciseList;
+
         var tasksList = $rootScope.tasksList;
 
         if (tasksList) {
         	if (tasksList.length>0) {
         		$scope.currentTask = tasksList[0];
         		taskTimeLimit = $scope.currentTask.time;
+        	} else {
+        		clearInterval(timer);
+        		$scope.currentTask.time = "";
         	}
         }
         $scope.tasksList = tasksList;
@@ -60,7 +64,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         $scope.tasksList.splice(fromIndex, 1);
         $scope.tasksList.splice(toIndex, 0, item);
         // save to firebase
-        $scope.updateTaskVariables();
+        $scope.updateTasksList();
     }
 
 
@@ -87,7 +91,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
             removeCurrentTask();
             exTime=0;
             // sharedTasks.setExTime(exTime);
-            // updateTaskVariables();
+            $scope.updateTasksList();
         }
 
         progressBarCircle.animate(exTime/taskTimeLimit, function() {
@@ -112,7 +116,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         // $scope.updateTasksList();
         // $scope.tasksList = $scope.updateTasksList();
         timer = false;
-        $scope.updateTaskVariables();
+        $scope.updateTasksList();
         // exTime = $scope.currentTask["time"];
     }
 
@@ -124,10 +128,15 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
 
 
     var removeCurrentTask = function() {
-        $scope.tasksList.shift();
+        // $scope.tasksList.shift();
+        $scope.tasksList.splice(0, 1);
         console.log($scope.tasksList, "with the first task removed");
         sharedTasks.setTasksList($scope.tasksList);
-        $scope.updateTasksList();
+        // $scope.tasksList = 
+        // $scope.updateTasksList();
+        $scope.$apply(function() {
+        	$scope.updateTasksList();
+        })
     }
 
 

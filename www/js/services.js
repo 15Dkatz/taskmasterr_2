@@ -43,7 +43,7 @@ myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope
 
   return {
     getTasksList: function() {
-      return tasksList;
+      return $rootScope.tasksList;
     },
 
     getNickname: function() {
@@ -71,7 +71,17 @@ myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope
 
     setTasksList: function(tasksList) {
        tasksListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
-       tasksListRef.set({"tasksList": tasksList});
+       if (tasksList.length>0) {
+        tasksListRef.update({"tasksList": tasksList});
+       } else {
+        tasksListRef.update({"tasksList": [{
+            name: "",
+            time: ""
+
+        }]});
+       }
+       
+     // if
     },
 
     // updateAccountFirstname: function(newFirstname) {
