@@ -65,10 +65,13 @@ myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope
     addTask: function(tasksList, newTask) {
       tasksListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
       var index = (tasksList.length).toString();
-      tasksList[index] = {
-        name: newTask
-      };
+      tasksList[index] = newTask;
       tasksListRef.update({"tasksList": tasksList});
+    },
+
+    setTasksList: function(tasksList) {
+       tasksListRef = new Firebase(firebaseUrl + 'users/' + $rootScope.currentUser.profile.identities[0].user_id);
+       tasksListRef.set({"tasksList": tasksList});
     },
 
     // updateAccountFirstname: function(newFirstname) {

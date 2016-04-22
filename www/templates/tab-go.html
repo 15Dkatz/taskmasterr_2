@@ -4,10 +4,10 @@
       <!-- titleDiv -->
       <div class="bar bar-dark">
         <h1 class="title">
-        <!-- {{currentExercise.exercise}} -->
+        <!-- {{currentTask.task}} -->
         </h1>
       </div> 
-      <!-- {{currentExercise.time}} -->
+      <!-- {{currentTask.time}} -->
       <br>
       <br>
       <br> 
@@ -16,47 +16,86 @@
         <!-- fill background with grey or a picture -->
       </div>
 
-      <div>{{test}}</div>
-
+      <!-- <div>{{test}}</div> -->
+<!--  WORKING MODEL 
       <input type="text" ng-model="newTask"/>
-      <!-- <input type="submit" ng-click="addTask(newTask)" /> -->
       <button class="button button-positive button-block" ng-click="addTask(newTask)">
         add Task
-      </button>
-
-
+      </button> -->
     </div>
 
-    <!-- <div class="row topButtons">
+    <div class="row topButtons">
       <div class="col col-50">
-        <button class="button button-block icon-right ion-play topButtons" ng-click="startExercise()" ng-if="showStartButton">Start</button>
-        <button class="button button-block icon-right topButtons {{pauseBtn.ionname}}" ng-click="pauseExercise()" ng-if="!showStartButton">{{pauseBtn.name}}</button>
+        <button class="button button-block icon-right ion-play topButtons" ng-click="startTask()" ng-if="showStartButton">Start</button>
+        <button class="button button-block icon-right topButtons {{pauseBtn.ionname}}" ng-click="startTask()" ng-if="!showStartButton">{{pauseBtn.name}}</button>
       </div>
       <div class="col col-50">
-        <button class="button button-block icon-right ion-ios-skipforward topButtons" ng-click="skipExercise()">Skip</button>
+        <button class="button button-block icon-right ion-ios-skipforward topButtons" ng-click="skiptask()">Skip</button>
       </div>
     </div>
-    
+
     <div class="bar bar-dark subheader">
       <button class="button button-clear icon-left ion-minus-circled" ng-click="data.shouldShowDelete = !data.shouldShowDelete"></button>
-      <button class="button button-clear icon-left ion-plus-circled" ng-click="addExercise()"></button>
-
-        <h1 class="title">Exercises</h1>
+      <button class="button button-clear icon-left ion-plus-circled" ng-click="addTask()"></button>
+      <!-- + button to addTask oneAtATime -->
+        <h1 class="title">Tasks</h1>
         <button class="button button-clear icon-right" ng-click="data.showReordering = !data.showReordering">Reorder</button>
     </div>
     <ion-list class="list" show-reorder="data.showReordering" show-delete="data.shouldShowDelete" can-swipe="data.canSwipe">
       <br>
       <br>
-      <ion-item ng-repeat="exercise in updateExerciseList() track by $index" class="item icon-left">
-       {{exercise.exercise}}
+      <!-- <br> -->
+      <!-- <span ng-init="initExList()">{{initExList()}}</span> -->
+      <ion-item ng-repeat="task in tasksList track by $index" class="item icon-left">
+       {{task.name}}
        
-        <span class="item-note">{{exercise.time}} seconds</span>
-        <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(exercise, $fromIndex, $toIndex)"></ion-reorder-button>
-        <ion-delete-button class="ion-minus-circled" ng-click="removeExercise($index)"></ion-delete-button>
-        <ion-option-button class="button-assertive" ng-click="editExercise($index)">
+        <span class="item-note">{{task.time}} seconds</span>
+        <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(task, $fromIndex, $toIndex)"></ion-reorder-button>
+        <ion-delete-button class="ion-minus-circled" ng-click="removeTask($index)"></ion-delete-button>
+        <ion-option-button class="button-assertive" ng-click="editTask($index)">
+          Edit
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+
+    <!-- <div class="row topButtons">
+      <div class="col col-50">
+        <button class="button button-block icon-right ion-play topButtons" ng-click="startTask()" ng-if="showStartButton">Start</button>
+        <button class="button button-block icon-right topButtons {{pauseBtn.ionname}}" ng-click="pausetask()" ng-if="!showStartButton">{{pauseBtn.name}}</button>
+      </div>
+      <div class="col col-50">
+        <button class="button button-block icon-right ion-ios-skipforward topButtons" ng-click="skiptask()">Skip</button>
+      </div>
+    </div>
+    
+    <div class="bar bar-dark subheader">
+      <button class="button button-clear icon-left ion-minus-circled" ng-click="data.shouldShowDelete = !data.shouldShowDelete"></button>
+      <button class="button button-clear icon-left ion-plus-circled" ng-click="addtask()"></button>
+
+        <h1 class="title">tasks</h1>
+        <button class="button button-clear icon-right" ng-click="data.showReordering = !data.showReordering">Reorder</button>
+    </div>
+    <ion-list class="list" show-reorder="data.showReordering" show-delete="data.shouldShowDelete" can-swipe="data.canSwipe">
+      <br>
+      <br>
+      <ion-item ng-repeat="task in updatetaskList() track by $index" class="item icon-left">
+       {{task.task}}
+       
+        <span class="item-note">{{task.time}} seconds</span>
+        <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(task, $fromIndex, $toIndex)"></ion-reorder-button>
+        <ion-delete-button class="ion-minus-circled" ng-click="removetask($index)"></ion-delete-button>
+        <ion-option-button class="button-assertive" ng-click="editTask($index)">
           Edit
         </ion-option-button>
       </ion-item>
     </ion-list> -->
   </ion-content>
+
+<div class="float-button">
+ <span class="height-fix">
+    <a class="content">
+      <i class="ion-plus-circled" ng-click="addTask()"> </i>
+    </a>
+    </span>
+ </div>
 </ion-view>

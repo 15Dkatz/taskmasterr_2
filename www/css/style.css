@@ -44,3 +44,44 @@
 	text-align: right;
 }
 */
+
+
+.float-button { 
+	background-color:#fff;
+	opacity: 0.9;
+	color: #fff;
+	border-radius: 50%;
+	/*border-radius:15% 0 0 0;*/
+	width: 30px;
+	padding: 20px;
+	font-size: 40px;
+	position: fixed;
+	bottom: 13%; /* Adjust height */
+	right: 6%; /* Adjust position */
+	z-index: 1000;
+}
+
+.float-button .height_fix {
+	margin-top: 100%;
+	border: 1px solid red;
+}
+
+.float-button .content {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	margin-top: -20px;
+  	color: #1976d2;
+}
+
+.float-button:active{
+	color: #fff;
+	background-color: #fff;
+}
+
+.float-button .content:active{
+	color: #1976d2;
+}

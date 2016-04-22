@@ -32,7 +32,8 @@ angular.module('starter.controllers', [])
           email:  auth.profile.email,
           nickname: auth.profile.nickname,
           tasksList: {
-            name: "your first task"
+            name: "your first task",
+            time: 5
           } 
         });
       }
