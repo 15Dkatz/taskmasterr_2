@@ -15,6 +15,13 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
     
     $scope.currentTask;
 
+
+    $scope.data = {
+        showReordering: false,
+        shouldShowDelete: false,
+        canSwipe: true
+    }
+
 	$scope.updateTasksList = function() {
         // exerciseList = sharedExercises.getExerciseList();
         // if (exerciseList) {
@@ -53,6 +60,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         $scope.tasksList.splice(fromIndex, 1);
         $scope.tasksList.splice(toIndex, 0, item);
         // save to firebase
+        $scope.updateTaskVariables();
     }
 
 
@@ -72,14 +80,14 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
 
         console.log("exTime", exTime)
         // $scope.$apply(function() {
-        //     updatetaskVariables();
+        //     updateTaskVariables();
         // });
 
         if (exTime>taskTimeLimit) {
             removeCurrentTask();
             exTime=0;
             // sharedTasks.setExTime(exTime);
-            // updatetaskVariables();
+            // updateTaskVariables();
         }
 
         progressBarCircle.animate(exTime/taskTimeLimit, function() {
@@ -101,10 +109,10 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
     $scope.removeTask = function(index) {
         $scope.tasksList.splice(index, 1);
         sharedTasks.setTasksList($scope.tasksList);
-        // $scope.updatetasksList();
-        // $scope.tasksList = $scope.updatetasksList();
+        // $scope.updateTasksList();
+        // $scope.tasksList = $scope.updateTasksList();
         timer = false;
-        $scope.updatetaskVariables();
+        $scope.updateTaskVariables();
         // exTime = $scope.currentTask["time"];
     }
 

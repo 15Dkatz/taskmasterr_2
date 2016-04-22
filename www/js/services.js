@@ -86,13 +86,13 @@ myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope
     //   userRef.update({"email": newEmail});
     // },
 
-    getExTime: function() {
-      return exTime;
-    },
+    // getExTime: function() {
+    //   return exTime;
+    // },
 
-    setExTime: function(newExtime) {
-      exTime = newExtime;
-    },
+    // setExTime: function(newExtime) {
+    //   exTime = newExtime;
+    // },
 
     setRootId: function(newId) {
       $rootScope.currentUser.$id = newId;
