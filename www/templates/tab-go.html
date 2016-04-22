@@ -41,7 +41,7 @@
         <h1 class="title">Tasks</h1>
         <button class="button button-clear icon-right" ng-click="data.showReordering = !data.showReordering">Reorder</button>
     </div>
-    <ion-list class="list" show-reorder="data.showReordering" show-delete="data.shouldShowDelete" can-swipe="data.canSwipe">
+    <ion-list class="list" show-reorder="data.showReordering" show-delete="data.shouldShowDelete" can-swipe="true">
       <br>
       <br>
       <!-- <br> -->
@@ -60,7 +60,7 @@
 
     <!-- <div class="row topButtons">
       <div class="col col-50">
-        <button class="button button-block icon-right ion-play topButtons" ng-click="startTask()" ng-if="showStartButton">Start</button>
+        <button class="button button-block icon-right ion-play topButtons" ng-click="startTask()" ng-if="showStartButton">Start</button>=
         <button class="button button-block icon-right topButtons {{pauseBtn.ionname}}" ng-click="pausetask()" ng-if="!showStartButton">{{pauseBtn.name}}</button>
       </div>
       <div class="col col-50">

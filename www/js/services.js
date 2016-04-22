@@ -75,8 +75,8 @@ myApp.service('sharedTasks', ['$rootScope', '$firebaseAuth', function($rootScope
         tasksListRef.update({"tasksList": tasksList});
        } else {
         tasksListRef.update({"tasksList": [{
-            name: "",
-            time: ""
+            name: "next task",
+            time: 0
 
         }]});
        }

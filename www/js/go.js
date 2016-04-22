@@ -65,6 +65,8 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         $scope.tasksList.splice(toIndex, 0, item);
         // save to firebase
         $scope.updateTasksList();
+
+        console.log("reOrder button pressed");
     }
 
 
@@ -134,11 +136,49 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         sharedTasks.setTasksList($scope.tasksList);
         // $scope.tasksList = 
         // $scope.updateTasksList();
-        $scope.$apply(function() {
-        	$scope.updateTasksList();
-        })
+        // $scope.$apply(function() {
+    	$scope.updateTasksList();
+        // })
     }
 
+    $scope.editTask = function(index) {
+        $scope.newTask = {};
+        var myPopup = $ionicPopup.show({
+        template: "<input class='inputIndent' placeholder='Name' type='text' ng-model='newTask.name'><br><input type='number' class='inputIndent' placeholder='Time' ng-model='newTask.time'>",
+        title: 'Edit Task',
+        scope: $scope,
+        buttons: [
+          { text: 'Cancel' },
+          {
+            text: '<b>Save</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              if (!$scope.newTask) {
+                e.preventDefault();
+              } else {
+                if ($scope.newTask.name) {
+                    $scope.tasksList[index]["name"] = $scope.newTask.name;
+                }
+                if ($scope.newTask.time) {
+                    $scope.tasksList[index]["time"] = $scope.newTask.time;  
+                }
+                
+                sharedTasks.setTasksList($scope.tasksList);
+                $scope.updateTasksList();
+              }
+            }
+          }
+        ]
+      });
+
+      myPopup.then(function(res) {
+        console.log('Tapped!', res);
+      });
+
+      $timeout(function() {
+         myPopup.close(); 
+      }, 10000);
+    }
 
 
 
@@ -213,6 +253,8 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
 
 
 }])
+
+// figure out reOrder item and editTask item
 
 
 // implement a savedTime response variable
