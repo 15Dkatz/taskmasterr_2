@@ -7,7 +7,7 @@
   <ion-content>
 
   	<div class="proimg">
-		<img class ="proimg"src="{{profile}}">
+		<img class ="proimg"src="{{item.file}}">
 	</div>
 			
 		<!-- <div class="item item-input-inset">
@@ -24,13 +24,18 @@
 	            </button>
             </div>
         </div> -->
-	<input type="file" nv-file-select uploader="uploader"/><br/>
-	<ul>
-	    <li ng-repeat="item in uploader.queue">
-	        Name: <span ng-bind="item.file.name"></span><br/>
-	        <button ng-click="item.upload()">upload</button>
-	    </li>
-	</ul>
+	<button ngf-select ng-model="picFile" accept="image/*">
+            Select Picture</button>
+        <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
+             class="cropArea">
+            <img-crop image="picFile  | ngfDataUrl"                 
+            result-image="croppedDataUrl" ng-init="croppedDataUrl=''">
+            </img-crop>
+        </div>
+        <div>
+            <img ng-src="{{croppedDataUrl}}" />
+        </div>
+        <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button>
 	<h2 class="title">{{name}}</h2>
   	<div class="list" >
   		<!-- <div class="item"> -->

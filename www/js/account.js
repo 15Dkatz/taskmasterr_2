@@ -1,4 +1,4 @@
-myApp.controller('AccountCtrl', function($scope, auth, store, $state, $rootScope, $http, FileUploader) {
+myApp.controller('AccountCtrl', function($scope, auth, store, $state, $rootScope, $http, Upload, $timeout) {
   $scope.logout = function() {
     auth.signout();
     store.remove('token');
@@ -123,13 +123,27 @@ myApp.controller('AccountCtrl', function($scope, auth, store, $state, $rootScope
     	// $scope.name = newName;
 	}
 
-	// file upload functions
-	$scope.uploader = new FileUploader();
 
-	// visit https://github.com/nervgh/angular-file-upload/wiki/Module-API for more detailed instructions
-
-	// after uploading picture, change the picture on auth0 default
-
+	// example http://jsfiddle.net/danialfarid/xxo3sk41/590/
+	// src https://github.com/danialfarid/ng-file-upload
+	// fix
+	 $scope.upload = function (dataUrl, name) {
+        Upload.upload({
+            url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+            data: {
+                file: Upload.dataUrltoBlob(dataUrl, name)
+            },
+        }).then(function (response) {
+            $timeout(function () {
+                $scope.result = response.data;
+            });
+        }, function (response) {
+            if (response.status > 0) $scope.errorMsg = response.status 
+                + ': ' + response.data;
+        }, function (evt) {
+            $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+        });
+    }
 
 });
 
