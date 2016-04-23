@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var myApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'firebase'])
+var myApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'firebase', 'angularFileUpload'])
 
 // .constant('FIREBASE_URL', 'https://taskmasterr.firebaseio.com/')
 
