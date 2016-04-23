@@ -50,7 +50,7 @@ angular.module('starter.controllers', [])
                 console.log("tasksListRef", tasksListRef);
                 $rootScope.tasksList = tasksList;
                 // return tasksList;
-                $rootScope.$broadcast('tasksListSet');
+                $rootScope.$broadcast('userAuthed');
 
 
            }
@@ -132,12 +132,4 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AccountCtrl', function($scope, auth, store, $state) {
-  $scope.logout = function() {
-    auth.signout();
-    store.remove('token');
-    store.remove('profile');
-    store.remove('refreshToken');
-    $state.go('login', {}, {reload: true});
-  };
-});
+

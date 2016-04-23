@@ -88,7 +88,7 @@ var myApp = angular.module('starter', ['ionic', 'starter.controllers', 'starter.
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
-        controller: 'LoginCtrl'
+        controller: 'AccountCtrl'
       }
     }
   });

@@ -6,7 +6,7 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
 
 	$scope.tasksList = {};
 
-	$rootScope.$on('tasksListSet', function() {
+	$rootScope.$on('userAuthed', function() {
 		$scope.tasksList = $rootScope.tasksList;
 	})
 
@@ -136,15 +136,17 @@ myApp.controller('GoCtrl', ['$scope', '$rootScope', '$firebaseObject', '$firebas
         sharedTasks.setTasksList($scope.tasksList);
         // $scope.tasksList = 
         // $scope.updateTasksList();
-        // $scope.$apply(function() {
-    	$scope.updateTasksList();
-        // })
+        $scope.$apply(function() {
+    		$scope.updateTasksList();
+        })
     }
 
     $scope.editTask = function(index) {
         $scope.newTask = {};
         var myPopup = $ionicPopup.show({
-        template: "<input class='inputIndent' placeholder='Name' type='text' ng-model='newTask.name'><br><input type='number' class='inputIndent' placeholder='Time' ng-model='newTask.time'>",
+        template: "<input class='inputIndent' placeholder='Name' type='text' ng-model='newTask.name'>"
+        			+ '<br>'
+        			+ "<input type='time' class='inputIndent' placeholder='Time' ng-model='newTask.time'>",
         title: 'Edit Task',
         scope: $scope,
         buttons: [
