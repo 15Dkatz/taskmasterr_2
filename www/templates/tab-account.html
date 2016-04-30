@@ -6,9 +6,9 @@
 
   <ion-content>
 
-  	<div class="proimg">
+  	<!-- <div class="proimg">
 		<img class ="proimg"src="{{item.file}}">
-	</div>
+	</div> -->
 			
 		<!-- <div class="item item-input-inset">
             <div class="buttonSet">
@@ -24,7 +24,7 @@
 	            </button>
             </div>
         </div> -->
-	<button ngf-select ng-model="picFile" accept="image/*">
+	<!-- <button ngf-select ng-model="picFile" accept="image/*">
             Select Picture</button>
         <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
              class="cropArea">
@@ -35,12 +35,12 @@
         <div>
             <img ng-src="{{croppedDataUrl}}" />
         </div>
-        <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button>
-	<h2 class="title">{{name}}</h2>
+        <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button> -->
+	
   	<div class="list" >
-  		<!-- <div class="item"> -->
-			<!-- <h2 class="title">{{name}}</h2> -->
-		<!-- </div> -->
+  		<div class="item">
+			<h2 class="title">{{name}}</h2>
+		</div>
 		<div class="item item-input-inset">
 		   	<label class="item-input-wrapper">
 		      	<input type="text" placeholder="Change Name" ng-model="newName" class="inputIndent">
